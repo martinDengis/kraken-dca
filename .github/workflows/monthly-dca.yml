@@ -28,7 +28,7 @@ jobs:
           echo "  key: '${{ secrets.KRAKEN_API_KEY }}'" >> config.yaml
           echo "  secret: '${{ secrets.KRAKEN_API_SECRET }}'" >> config.yaml
           echo "dca:" >> config.yaml
-          echo "  dry_run: true" >> config.yaml
+          echo "  dry_run: false" >> config.yaml
           echo "  strategies:" >> config.yaml
           echo "    - pair: '${{ secrets.DCA_PAIR_1 }}'" >> config.yaml
           echo "      amount_eur: ${{ secrets.DCA_AMOUNT_1 }}" >> config.yaml
