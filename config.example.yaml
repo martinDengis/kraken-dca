@@ -1,0 +1,19 @@
+# Rename to config.yaml and fill in your values
+api:
+  key: "YOUR_KRAKEN_API_KEY"
+  secret: "YOUR_KRAKEN_API_SECRET"
+
+dca:
+  dry_run: true   # Set to false to place real market orders
+  # List of strategies to execute each run
+  strategies:
+    - pair: "ETH/EUR"
+      amount_eur: 25.0
+    - pair: "BTC/EUR"
+      amount_eur: 25.0
+
+# Logging configuration
+logging:
+  level: INFO
+  file: "kraken_dca.log"
+  discord_webhook: "YOUR_DISCORD_WEBHOOK_URL"

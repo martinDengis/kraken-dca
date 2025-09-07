@@ -1,0 +1,51 @@
+name: Monthly Kraken DCA
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  run-dca:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pyyaml
+
+      - name: Create config.yaml from secrets
+        run: |
+          echo "api:" >> config.yaml
+          echo "  key: '${{ secrets.KRAKEN_API_KEY }}'" >> config.yaml
+          echo "  secret: '${{ secrets.KRAKEN_API_SECRET }}'" >> config.yaml
+          echo "dca:" >> config.yaml
+          echo "  dry_run: true" >> config.yaml
+          echo "  strategies:" >> config.yaml
+          echo "    - pair: '${{ secrets.DCA_PAIR_1 }}'" >> config.yaml
+          echo "      amount_eur: ${{ secrets.DCA_AMOUNT_1 }}" >> config.yaml
+          echo "    - pair: '${{ secrets.DCA_PAIR_2 }}'" >> config.yaml
+          echo "      amount_eur: ${{ secrets.DCA_AMOUNT_2 }}" >> config.yaml
+          echo "logging:" >> config.yaml
+          echo "  level: INFO" >> config.yaml
+          echo "  file: kraken_dca.log" >> config.yaml
+          echo "  discord_webhook: '${{ secrets.DISCORD_WEBHOOK }}'" >> config.yaml
+
+      - name: Run DCA
+        run: |
+          python main.py
+
+      - name: Upload log artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dca-logs
+          path: kraken_dca.log
