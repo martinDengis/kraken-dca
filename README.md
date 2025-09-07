@@ -1,6 +1,6 @@
 # kraken-dca
 
-A simple Dollar-Cost Averaging (DCA) helper for executing periodic market buy orders on Kraken.
+A simple Dollar-Cost Averaging (DCA) helper for executing periodic market buy orders on Kraken. Mainly aimed for Kraken Pro (offers lower fees) as DCA option is available on the base app already - so make sure to create API keys for the Kraken Pro app version.
 
 ## Features
 
