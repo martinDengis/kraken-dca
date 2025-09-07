@@ -46,9 +46,9 @@ api:
 dca:
   dry_run: true   # If true, no real orders are placed (simulation only)
   strategies:
-    - pair: ETHEUR
+    - pair: ETH/EUR
       amount_eur: 25.0
-    - pair: BTCEUR
+    - pair: BTC/EUR
       amount_eur: 25.0
 
 logging:
