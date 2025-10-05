@@ -8,6 +8,7 @@ import os
 import logging
 from dataclasses import dataclass
 from typing import List
+from urllib.parse import urlencode
 from discord_utils import (
     send_discord_message,
     create_start_embed,
@@ -107,14 +108,15 @@ def pass_market_order(api_key, api_secret, pair, volume, base_url: str = DEFAULT
         'volume': volume,
         'pair': pair
     }
-    post_data_encoded = '&'.join([f"{key}={value}" for key, value in post_data.items()])
+
+    post_data_encoded = urlencode(post_data)
 
     headers = {
         'API-Key': api_key,
         'API-Sign': get_signature(api_secret, post_data_encoded, nonce, url_path)
     }
 
-    response = requests.post(url, headers=headers, data=post_data, timeout=30)
+    response = requests.post(url, headers=headers, data=post_data_encoded, timeout=30)
     return response.json()
 
 
@@ -129,12 +131,14 @@ def get_balance(api_key: str, api_secret: str, base_url: str = DEFAULT_BASE_URL)
     url = f'{base_url}{url_path}'
     nonce = get_nonce()
     post_data = {'nonce': nonce}
-    post_data_encoded = '&'.join([f"{k}={v}" for k, v in post_data.items()])
+
+    post_data_encoded = urlencode(post_data)
+
     headers = {
         'API-Key': api_key,
         'API-Sign': get_signature(api_secret, post_data_encoded, nonce, url_path)
     }
-    resp = requests.post(url, headers=headers, data=post_data, timeout=30)
+    resp = requests.post(url, headers=headers, data=post_data_encoded, timeout=30)
     return resp.json()
 
 
